@@ -2,6 +2,7 @@
 
 Restoran Menü Uygulaması
 Bu proje, restoranların ve menü kategorilerinin yönetimini sağlayan bir restoran menü uygulamasıdır. Uygulama, kullanıcıların çeşitli restoranların menülerini görüntülemelerine, mutfak türlerine göre seçim yapmalarına olanak tanır.
+
 <br>
 Özellikler
 -Restoran Yönetimi: Restoranların detaylı bilgilerini ekleyebilir, düzenleyebilir ve silebilirsiniz.
