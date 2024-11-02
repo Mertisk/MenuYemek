@@ -1,13 +1,56 @@
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
-import React from "react";
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Pressable,
+} from "react-native";
+import React, { useLayoutEffect, useContext } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { FOODS } from "../data/dummy-data";
 import FoodIngredients from "../components/FoodIngredients";
+import { FavoritesContext } from "../store/favoritesContext";
 
-export default function FoodDetailScreen({ route }) {
+export default function FoodDetailScreen({ route, navigation }) {
+  const favoriteFoodContext = useContext(FavoritesContext);
   const foodId = route.params.foodId;
   const selectedFood = FOODS.find((food) => food.id === foodId);
-  console.log(selectedFood);
+
+  const foodIsFavorite = favoriteFoodContext.ids.includes(foodId);
+
+  const pressHandler = () => {
+    console.log("Tıklandı");
+  };
+
+  function changeFavorite() {
+    if (foodIsFavorite) {
+      favoriteFoodContext.removeFavorite(foodId);
+    } else {
+      favoriteFoodContext.addFavorite(foodId);
+    }
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <Pressable
+            style={({ pressed }) => pressed && styles.pressed}
+            onPress={pressHandler}
+          >
+            <Ionicons
+              name={foodIsFavorite ? "star" : "star-outline"}
+              size={26}
+              onPress={changeFavorite}
+              color="white"
+            />
+          </Pressable>
+        );
+      },
+    });
+  }, [navigation, changeFavorite]);
+  //bilerek changeFavorite oldu cunku sayfa yuklenmeden render olmasını istiyorum
 
   return (
     <ScrollView style={styles.rootContainer}>
@@ -68,5 +111,8 @@ const styles = StyleSheet.create({
     color: "orange",
     fontSize: 24,
     fontWeight: "bold",
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });
